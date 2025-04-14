@@ -90,6 +90,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // Delete task
     Route::delete('/admin/tasks/{id}', [TaskController::class, 'destroy'])->name('admin.tasks.destroy');
+    Route::get('admin/tasks/data', [TaskController::class, 'getData'])->name('admin.tasks.data');
 });
 
 // Route::middleware(['auth', 'admin'])->group(function () {
