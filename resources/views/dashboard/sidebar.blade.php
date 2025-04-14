@@ -1,64 +1,42 @@
 <div class="sidebar">
-
     <!-- Sidebar Menu -->
-    <!-- Admin dashboard -->
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-            {{-- 🛠️ Admin Dashboard --}}
-            <li class="nav-header">ADMIN DASHBOARD</li>
+            {{-- ADMIN MENU --}}
+            @if(auth()->check() && auth()->user()->user_role === 'admin')
+                <li class="nav-header"><h5>ADMIN DASHBOARD</h5></li>
 
-            {{-- 👥 User Management --}}
-            <li class="nav-item {{ Request::is('all/users*') ? 'menu-open' : '' }}">
-                <a href="#" class="nav-link {{ Request::is('all/users*') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-users-cog"></i>
-                    <p>
-                        User Management
-                        <i class="right fas fa-angle-left"></i>
-                    </p>
-                </a>
+                {{-- 👥 User Management --}}
+                <li class="nav-item">
+                    <a href="{{ route('daily_reports.index') }}" class="nav-link bg-primary text-white {{ Request::is('all/users*') ? 'active' : '' }}" style="border-radius: 5px;">
+                        <i class="nav-icon fas fa-users-cog"></i>
+                        <p>User Management</p>
+                    </a>
+                </li>
 
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{ route('daily_reports.index') }}" class="nav-link {{ Request::is('all/users*') ? 'active' : '' }}">
-                            <i class="far fa-user-plus nav-icon"></i>
-                            <p>Add New User</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
 
-            {{-- ✅ Task Management --}}
-            <li class="nav-item {{ Request::is('admin/tasks*') ? 'menu-open' : '' }}">
-                <a href="#" class="nav-link {{ Request::is('admin/tasks*') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-tasks"></i>
-                    <p>
-                        Task Management
-                        <i class="right fas fa-angle-left"></i>
-                    </p>
-                </a>
+                {{-- Task Management --}}
+                <li class="nav-item">
+                    <a href="{{ route('admin.tasks.index') }}" class="nav-link bg-primary text-white {{ Request::is('admin/tasks*') ? 'active' : '' }}" style="border-radius: 5px;">
+                        <i class="nav-icon fas fa-tasks"></i>
+                        <p>Task Management</p>
+                    </a>
+                </li>
 
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{ route('admin.tasks.index') }}" class="nav-link {{ Request::is('admin/tasks') ? 'active' : '' }}">
-                            <i class="far fa-list-alt nav-icon"></i>
-                            <p>All Tasks</p>
-                        </a>
-                    </li>
+            @endif
 
-                    <li class="nav-item">
-                        <a href="{{ route('admin.tasks.create') }}" class="nav-link {{ Request::is('admin/tasks/create') ? 'active' : '' }}">
-                            <i class="far fa-plus-square nav-icon"></i>
-                            <p>Create Task</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            {{-- EMPLOYEE MENU --}}
+            @if(auth()->check() && auth()->user()->user_role === 'employee')
+                <li class="nav-item">
+                    <a href="{{ route('employee.tasks.index') }}" class="nav-link bg-primary text-white {{ Request::is('employee/tasks*') ? 'active' : '' }}" style="border-radius: 5px;">
+                        <i class="nav-icon fas fa-user-shield"></i>
+                        <p>Employee Dashboard</p>
+                    </a>
+                </li>
+            @endif
 
         </ul>
     </nav>
-    <!-- End Admin dashboard -->
-
-
     <!-- /.sidebar-menu -->
 </div>

@@ -1,5 +1,5 @@
 @extends('dashboard/master')
-@section('title', 'Add new user')
+@section('title', 'Edit My Task')
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -8,13 +8,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Add new user</h1>
+                        <h1>Edit My Task</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            {{-- <li class="breadcrumb-item ">B</li> --}}
-                            <li class="breadcrumb-item active">Add new user</li>
+                            {{-- <li class="breadcrumb-item ">Banner</li> --}}
+                            <li class="breadcrumb-item active">Edit Task</li>
                         </ol>
                     </div>
                 </div>
@@ -26,56 +26,36 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-                        <div class="card card-primary">
+                        <div class="card card-success">
                             <div class="card-header">
-                                <h3 class="card-title">Add user</h3>
+                                <h3 class="card-title">Update Task</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <form action="{{ route('daily_reports.store') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('employee.tasks.update', $task->id) }}" method="POST">
                                     @csrf
-                                    <!-- Category Name -->
-                                    <div class="form-group">
-                                        <label for="name">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Name">
-                                    </div>
+                                    @method('PUT')
 
+                                    <!-- Task Info -->
                                     <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="text" class="form-control" id="email" name="email" placeholder="Email address">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <input type="text" class="form-control" id="password" name="password" placeholder="Password">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="user_role">User Role</label>
-                                        <select class="form-control" id="user_role" name="user_role">
-                                            <option value="admin">Admin</option>
-                                            <option value="employee">Employee</option>
-                                        </select>
+                                        <label for="task_info">Task Info</label>
+                                        <textarea name="task_info" id="task_info" rows="3" class="form-control" required>{{ old('task_info', $task->task_info) }}</textarea>
                                     </div>
 
                                     <!-- Status -->
                                     <div class="form-group">
                                         <label for="status">Status</label>
-                                        <select class="form-control" id="status" name="status">
-                                            <option value="" disabled selected>Select status</option>
-                                            <option value="1">Active</option>
-                                            <option value="0">Inactive</option>
+                                        <select name="status" id="status" class="form-control" required>
+                                            <option value="1" {{ $task->status == 1 ? 'selected' : '' }}>Active</option>
+                                            <option value="0" {{ $task->status == 0 ? 'selected' : '' }}>Inactive</option>
                                         </select>
                                     </div>
 
-                                    <!-- Submit Button -->
-                                    <button type="submit" class="btn btn-success">Add</button>
-
-                                    <!-- Back Button -->
-                                    <a href="{{ route('daily_reports.index') }}" class="btn btn-primary" style="margin-left: 10px;">
-                                        Back
-                                    </a>
+                                    <!-- Buttons -->
+                                    <button type="submit" class="btn btn-success">Update</button>
+                                    <a href="{{ route('employee.tasks.index') }}" class="btn btn-secondary ml-2">Back</a>
                                 </form>
+
                             </div>
                             <!-- /.card-body -->
                         </div>
@@ -87,7 +67,6 @@
             </div>
             <!-- /.container-fluid -->
         </section>
-
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
@@ -117,12 +96,30 @@
 @section('ajax')
 
 {{-- <script>
-    function updateFileName() {
-    const image = document.getElementById('marketing_house_icon');
-    const label = document.querySelector('.custom-file-label');
-    const fileName = image.files[0] ? image.files[0].name : 'Choose file';
-    label.textContent = fileName;
-}
+    function displayImage(inpu) {
+           var preview = document.getElementById('preview-image');
+
+           if (inpu) {
+               var reader = new FileReader();
+
+               reader.onload = function(e) {
+                   preview.src = e.target.result;
+
+               }
+
+               reader.readAsDataURL(inpu.files[0]);
+           } else {
+               // If no file is selected, display the old image
+               preview.src = "{{env('AWS_URL') . '/' .$data->marketing_house_icon}}";
+           }
+
+       }
+       function updateFileName() {
+           const image = document.getElementById('marketing_house_icon');
+           const label = document.querySelector('.custom-file-label');
+           const fileName = image.files[0] ? image.files[0].name : 'Choose file';
+           label.textContent = fileName;
+       }
 </script> --}}
 
 @endsection

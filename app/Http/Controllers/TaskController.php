@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
@@ -20,54 +21,62 @@ class TaskController extends Controller
 
     public function getData(Request $request)
     {
-
         if ($request->ajax()) {
-            $sortColumnIndex = $request->get('order')[0]['column']; // value depend on datatable field not in table
+            try {
+                $sortColumnIndex = $request->get('order')[0]['column'] ?? 0;
+                $sortDirection = $request->get('order')[0]['dir'] ?? 'asc';
 
-            $sortDirection = $request->get('order')[0]['dir'];
+                $columns = [
+                    'id', 'task_info', 'user_id', 'status', 'created_at', 'updated_at',
+                ];
 
-            // Map column index to actual column names (you can adjust this as per your columns)
-            $columns = [
-                'id','task_info','user_id','status','created_at','updated_at',
-            ]; // value depend on datatable field not in table
+                $sortColumn = $columns[$sortColumnIndex] ?? 'id';
 
-            // Get the column name for sorting
-            $sortColumn = $columns[$sortColumnIndex];// value depend on datatable field not in table
+                $data = Task::leftJoin('users', 'tasks.user_id', '=', 'users.id')
+                            ->select('tasks.*', 'users.name as user_name')
+                            ->orderBy($sortColumn, $sortDirection);
 
-            // Apply the sorting to the query
-            $data = Task::select('*')->orderBy($sortColumn, $sortDirection);
+                return DataTables::of($data)
+                    ->addIndexColumn()
+                    ->editColumn('user_name', function ($row) {
+                        return $row->user_name ?? 'N/A';
+                    })
+                    ->editColumn('status', function ($row) {
+                        return $row->status == 0
+                            ? '<span class="badge bg-danger">Inactive</span>'
+                            : '<span class="badge bg-success">Active</span>';
+                    })
+                    ->editColumn('created_at', function ($row) {
+                        return \Carbon\Carbon::parse($row->created_at)->format('d-m-Y h:i A');
+                    })
+                    ->editColumn('updated_at', function ($row) {
+                        return \Carbon\Carbon::parse($row->updated_at)->format('d-m-Y h:i A');
+                    })
+                    ->addColumn('action', function ($row) {
+                        return '
+                            <div class="d-flex">
+                                <a href="' . route('admin.tasks.show', $row->id) . '" class="mb-1 btn btn-primary btn-sm mr-2">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="#" class="mb-1 btn btn-danger btn-sm" onclick="confirmDelete(\'' . route('admin.tasks.destroy', $row->id) . '\');">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        ';
+                    })
+                    ->rawColumns(['user_name','status', 'action'])
+                    ->make(true);
+            } catch (\Exception $e) {
+                Log::error('Datatable Error: ' . $e->getMessage());
 
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('status', function ($row) {
-                    if ($row->status == 0) {
-                        return '<span class="badge bg-danger">Inactive</span>';
-                    } else {
-                        return '<span class="badge bg-success">Active</span>';
-                    }
-                })
-                ->addColumn('created_at', function ($row) {
-                    return Carbon::parse($row->created_at)->format('d-m-Y h:i A');
-                })
-                ->addColumn('updated_at', function ($row) {
-                    return Carbon::parse($row->updated_at)->format('d-m-Y h:i A');
-                })
-                ->addColumn('action', function ($row) {
-                    return '
-                        <div class="d-flex">
-                            <a href="' . route('admin.tasks.show', $row->id) . '" class="mb-1 btn btn-primary btn-sm mr-2">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a href="#" class="mb-1 btn btn-danger btn-sm" onclick="confirmDelete(\'' . route('admin.tasks.destroy', $row->id) . '\');">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </div>
-                    ';
-                })
-                ->rawColumns(['status','action'])
-                ->make(true);
+                return response()->json([
+                    'error' => 'Something went wrong: ' . $e->getMessage(),
+                ], 500);
+            }
         }
     }
+
+
     public function create()
     {
         $users = User::all();  // Get all users to assign tasks
@@ -80,32 +89,31 @@ class TaskController extends Controller
           $request->validate([
               'task_info' => 'required|string',
               'user_id' => 'required|exists:users,id',
+              'status' => 'required|in:0,1', // Validate status if coming from form
           ]);
-  
+
           Task::create([
               'task_info' => $request->task_info,
               'user_id' => $request->user_id,
-              'status' => 'pending', // Default status
+              'status' => $request->status,
           ]);
-  
+
           return redirect()->route('admin.tasks.index')->with('success', 'Task created successfully!');
       }
-  
+
       // Show specific task details
       public function show($id)
       {
-          $task = Task::with('user')->findOrFail($id);
-          return view('admin.tasks.show', compact('task'));
+          try {
+              $task = Task::with('user')->findOrFail($id);
+              $users = User::all(); // Get all users for the dropdown
+
+              return view('admin.tasks.edit', compact('task', 'users'));
+          } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+              return redirect()->route('admin.tasks.index')->with('error', 'Task not found.');
+          }
       }
-  
-      // Show form to edit a task
-      public function edit($id)
-      {
-          $task = Task::findOrFail($id);
-          $users = User::all();  // Get all users to assign tasks
-          return view('admin.tasks.edit', compact('task', 'users'));
-      }
-  
+
       // Update an existing task
       public function update(Request $request, $id)
       {
@@ -113,23 +121,23 @@ class TaskController extends Controller
               'task_info' => 'required|string',
               'user_id' => 'required|exists:users,id',
           ]);
-  
+
           $task = Task::findOrFail($id);
           $task->update([
               'task_info' => $request->task_info,
               'user_id' => $request->user_id,
               'status' => $request->status,  // Ensure you handle the status as needed
           ]);
-  
+
           return redirect()->route('admin.tasks.index')->with('success', 'Task updated successfully!');
       }
-  
+
       // Delete a task
       public function destroy($id)
       {
           $task = Task::findOrFail($id);
           $task->delete();
-  
+
           return redirect()->route('admin.tasks.index')->with('success', 'Task deleted successfully!');
       }
 }

@@ -35,27 +35,27 @@
                             <form action="{{ route('admin.tasks.store') }}" method="POST">
                                 @csrf
 
+                                <!-- Assigned User -->
+                                <div class="form-group">
+                                <label for="user_id">Assign To</label>
+                                    <select class="form-control" id="user_id" name="user_id">
+                                        <option value="" disabled selected>Select a user</option>
+                                        @foreach($users as $user)
+                                            <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 <!-- Task Info -->
                                 <div class="form-group">
                                     <label for="task_info">Task Info</label>
                                     <textarea class="form-control" name="task_info" id="task_info" rows="3" placeholder="Enter task details...">{{ old('task_info') }}</textarea>
                                 </div>
 
-                                <!-- Assigned User -->
-                                <div class="form-group">
-                                    <label for="user_id">Assign To</label>
-                                    <select class="form-control" id="user_id" name="user_id">
-                                        <option value="" disabled selected>Select a user</option>
-                                        @foreach($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
                                 <!-- Status -->
                                 <div class="form-group">
                                     <label for="status">Status</label>
                                     <select class="form-control" id="status" name="status">
+                                        <option value="" disabled selected>Select status</option>
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>

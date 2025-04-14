@@ -36,8 +36,8 @@
                                     @csrf
                                     {{-- @method('PUT') --}}
 
-                                    <input type="hidden" class="form-control" id="id" name="id"
-                                    value="{{ $data->id }}" >
+                                    {{-- <input type="hidden" class="form-control" id="id" name="id"
+                                    value="{{ $data->id }}" > --}}
 
                                     <!-- Name -->
                                     <div class="form-group">
@@ -137,7 +137,7 @@
 @endsection
 @section('ajax')
 
-<script>
+{{-- <script>
     function displayImage(inpu) {
            var preview = document.getElementById('preview-image');
 
@@ -162,6 +162,6 @@
            const fileName = image.files[0] ? image.files[0].name : 'Choose file';
            label.textContent = fileName;
        }
-</script>
+</script> --}}
 
 @endsection

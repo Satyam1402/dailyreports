@@ -6,12 +6,14 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\EmployeeController;
+
+
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin_PostController;
-
-
+use App\Http\Controllers\EmployeeTaskController;
 use App\Http\Controllers\All_Users_data_Controller;
-use App\Http\Controllers\TaskController;
 
 
 
@@ -40,21 +42,7 @@ Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 
-
-
-
-// // Routes for creating new Users
-// Route::middleware(['auth:sanctum', 'verified','admin'])->group(function () {
-//     Route::get('all/users', [All_Users_data_Controller::class, 'index'])->name('daily_reports.index');
-//     Route::get('user/data', [All_Users_data_Controller::class, 'getData'])->name('daily_reports.data');
-//     Route::get('user/add', [All_Users_data_Controller::class, 'add'])->name('daily_reports.add');
-//     Route::post('user/store', [All_Users_data_Controller::class, 'store'])->name('daily_reports.store');
-//     Route::get('user/show/{id}', [All_Users_data_Controller::class, 'show'])->name('daily_reports.show');
-//     Route::post('user/update/{id}', [All_Users_data_Controller::class, 'update'])->name('daily_reports.update');
-//     Route::get('user/destroy/{id}', [All_Users_data_Controller::class, 'destroy'])->name('daily_reports.destroy');
-// });
-
-// 🛡️ Admin-only routes for managing users
+// Admin-only routes for managing users
 Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
     Route::prefix('user')->name('daily_reports.')->group(function () {
         Route::get('/add', [All_Users_data_Controller::class, 'add'])->name('add');
@@ -72,32 +60,18 @@ Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     // Display all tasks
     Route::get('/admin/tasks', [TaskController::class, 'index'])->name('admin.tasks.index');
-
-    // Show form for creating a new task
-    Route::get('/admin/tasks/create', [TaskController::class, 'create'])->name('admin.tasks.create');
-
-    // Store a new task
-    Route::post('/admin/tasks', [TaskController::class, 'store'])->name('admin.tasks.store');
-
-    // Show a specific task (for details or edit)
-    Route::get('/admin/tasks/{id}', [TaskController::class, 'show'])->name('admin.tasks.show');
-
-    // Edit task form
-    Route::get('/admin/tasks/{id}/edit', [TaskController::class, 'edit'])->name('admin.tasks.edit');
-
-    // Update task
-    Route::put('/admin/tasks/{id}', [TaskController::class, 'update'])->name('admin.tasks.update');
-
-    // Delete task
-    Route::delete('/admin/tasks/{id}', [TaskController::class, 'destroy'])->name('admin.tasks.destroy');
     Route::get('admin/tasks/data', [TaskController::class, 'getData'])->name('admin.tasks.data');
+    Route::get('/admin/tasks/create', [TaskController::class, 'create'])->name('admin.tasks.create');
+    Route::post('/admin/tasks', [TaskController::class, 'store'])->name('admin.tasks.store');
+    Route::get('/admin/tasks/{id}', [TaskController::class, 'show'])->name('admin.tasks.show');
+    Route::put('/admin/tasks/{id}', [TaskController::class, 'update'])->name('admin.tasks.update');
+    Route::get('/admin/delete/{id}', [TaskController::class, 'destroy'])->name('admin.tasks.destroy');
 });
 
-// Route::middleware(['auth', 'admin'])->group(function () {
-//     Route::resource('/admin/tasks', TaskController::class);
-// });
-
-Route::middleware(['auth', 'employee'])->group(function () {
-    Route::get('/employee/dashboard', [EmployeeController::class, 'dashboard'])->name('employee.dashboard');
-    // Add other employee-only routes here
+// Employee-only routes for managing tasks
+Route::middleware(['auth', 'employee','verified'])->prefix('employee')->name('employee.')->group(function () {
+    Route::get('/tasks', [EmployeeTaskController::class, 'index'])->name('tasks.index');
+    Route::get('tasks/data', [EmployeeTaskController::class, 'getData'])->name('tasks.data');
+    Route::get('/tasks/{task}/edit', [EmployeeTaskController::class, 'edit'])->name('tasks.edit');
+    Route::put('/tasks/{task}', [EmployeeTaskController::class, 'update'])->name('tasks.update');
 });

@@ -84,8 +84,9 @@
         </a>
       </li> --}}
       <li class="nav-item">
+        {{-- <h4>Welcome, {{ auth()->user()->name }}</h4> --}}
         <a class="nav-link" href="{{ route('logout') }}" role="button" title="logout">
-          <i class="fas fa-power-off"></i>
+          <span class="mr-2 text-black font-weight-bold">Welcome, {{ auth()->user()->name }}</span><i class="fas fa-power-off"></i>
         </a>
       </li>
     </ul>

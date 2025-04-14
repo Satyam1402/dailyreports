@@ -8,13 +8,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Edit user</h1>
+                        <h1>Edit Task</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             {{-- <li class="breadcrumb-item ">Banner</li> --}}
-                            <li class="breadcrumb-item active">Edit user</li>
+                            <li class="breadcrumb-item active">Edit Task</li>
                         </ol>
                     </div>
                 </div>
@@ -28,72 +28,45 @@
                     <div class="col-12">
                         <div class="card card-success">
                             <div class="card-header">
-                                <h3 class="card-title">Update user</h3>
+                                <h3 class="card-title">Edit Task Form</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <form action="{{ route('daily_reports.update', $data->id) }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('admin.tasks.update', $task->id) }}" method="POST" enctype="multipart/form-data">
                                     @csrf
-                                    {{-- @method('PUT') --}}
+                                    @method('PUT')
 
-                                    <input type="hidden" class="form-control" id="id" name="id"
-                                    value="{{ $data->id }}" >
-
-                                    <!-- Name -->
+                                     <!-- Assigned User -->
                                     <div class="form-group">
-                                        <label for="name">Name <span class="text-danger">*</span></label>
-                                        <input type="text"
-                                               class="form-control"
-                                               id="name"
-                                               name="name"
-                                               value="{{ old('name', $data->name) }}"
-                                               placeholder="Enter name"
-                                               required>
-                                    </div>
-
-                                    <!-- Email -->
-                                    <div class="form-group">
-                                        <label for="email">Email <span class="text-danger">*</span></label>
-                                        <input type="email"
-                                               class="form-control"
-                                               id="email"
-                                               name="email"
-                                               value="{{ old('email', $data->email) }}"
-                                               placeholder="Enter email"
-                                               required>
-                                    </div>
-
-                                    <!-- Password -->
-                                    <div class="form-group">
-                                        <label for="password">Password <small>(Leave blank to keep current)</small></label>
-                                        <input type="password"
-                                               class="form-control"
-                                               id="password"
-                                               name="password"
-                                               placeholder="New password (optional)">
-                                    </div>
-
-                                    <!-- User Role -->
-                                    <div class="form-group">
-                                        <label for="user_role">User Role <span class="text-danger">*</span></label>
-                                        <select class="form-control" id="user_role" name="user_role" required>
-                                            <option value="admin" {{ $data->user_role === 'admin' ? 'selected' : '' }}>Admin</option>
-                                            <option value="employee" {{ $data->user_role === 'employee' ? 'selected' : '' }}>Employee</option>
+                                        <label for="user_id">Assign To</label>
+                                        <select class="form-control" id="user_id" name="user_id">
+                                            <option value="" disabled>Select a user</option>
+                                            @foreach($users as $user)
+                                                <option value="{{ $user->id }}" {{ $task->user_id == $user->id ? 'selected' : '' }}>
+                                                    {{ $user->name }} ({{ $user->email }})
+                                                </option>
+                                            @endforeach
                                         </select>
+                                    </div>
+
+                                    <!-- Task Info -->
+                                    <div class="form-group">
+                                        <label for="task_info">Task Info</label>
+                                        <textarea class="form-control" name="task_info" id="task_info" rows="3">{{ old('task_info', $task->task_info) }}</textarea>
                                     </div>
 
                                     <!-- Status -->
                                     <div class="form-group">
                                         <label for="status">Status <span class="text-danger">*</span></label>
                                         <select class="form-control" id="status" name="status" required>
-                                            <option value="1" {{ $data->status == 1 ? 'selected' : '' }}>Active</option>
-                                            <option value="0" {{ $data->status == 0 ? 'selected' : '' }}>Inactive</option>
+                                            <option value="1" {{ $task->status == 1 ? 'selected' : '' }}>Active</option>
+                                            <option value="0" {{ $task->status == 0 ? 'selected' : '' }}>Inactive</option>
                                         </select>
                                     </div>
 
                                     <!-- Submit & Back Buttons -->
-                                    <button type="submit" class="btn btn-success">Update</button>
-                                    <a href="{{ route('daily_reports.index') }}" class="btn btn-primary" style="margin-left: 10px;">
+                                    <button type="submit" class="btn btn-success">Update Task</button>
+                                    <a href="{{ route('admin.tasks.index') }}" class="btn btn-primary" style="margin-left: 10px;">
                                         Back
                                     </a>
                                 </form>
@@ -137,7 +110,7 @@
 @endsection
 @section('ajax')
 
-<script>
+{{-- <script>
     function displayImage(inpu) {
            var preview = document.getElementById('preview-image');
 
@@ -162,6 +135,6 @@
            const fileName = image.files[0] ? image.files[0].name : 'Choose file';
            label.textContent = fileName;
        }
-</script>
+</script> --}}
 
 @endsection
