@@ -130,9 +130,9 @@
                     },
                 ],
                 search: {
-                    smart: true,
+                    smart: false,
                     regex: false,
-                    caseInsensitive: true
+                    caseInsensitive: false
                 }
             });
         });

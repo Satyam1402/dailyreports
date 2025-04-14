@@ -91,9 +91,9 @@
                     { data: 'action', name: 'action', orderable: false, searchable: false },
                 ],
                 search: {
-                    smart: true,
+                    smart: false,
                     regex: false,
-                    caseInsensitive: true
+                    caseInsensitive: false
                 }
             });
         });

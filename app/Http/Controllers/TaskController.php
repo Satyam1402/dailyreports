@@ -34,7 +34,7 @@ class TaskController extends Controller
 
                 $data = Task::leftJoin('users', 'tasks.user_id', '=', 'users.id')
                             ->select('tasks.*', 'users.name as user_name')
-                            ->orderBy($sortColumn, $sortDirection);
+                            ->orderBy('tasks.updated_at', 'desc');
 
                 return DataTables::of($data)
                     ->addIndexColumn()
