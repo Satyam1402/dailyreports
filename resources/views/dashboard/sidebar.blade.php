@@ -16,13 +16,21 @@
                 </li>
 
 
-                {{-- Task Management --}}
+                {{-- Reports Management --}}
                 <li class="nav-item">
+                    <a href="{{ route('admin.reports.index') }}" class="nav-link bg-primary text-white {{ Request::is('admin/reports*') ? 'active' : '' }}" style="border-radius: 5px;">
+                        <i class="nav-icon fas fa-tasks"></i>
+                        <p>Reports Management</p>
+                    </a>
+                </li>
+
+                {{-- Task Management --}}
+                {{-- <li class="nav-item">
                     <a href="{{ route('admin.tasks.index') }}" class="nav-link bg-primary text-white {{ Request::is('admin/tasks*') ? 'active' : '' }}" style="border-radius: 5px;">
                         <i class="nav-icon fas fa-tasks"></i>
                         <p>Task Management</p>
                     </a>
-                </li>
+                </li> --}}
 
             @endif
 

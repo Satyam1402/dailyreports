@@ -56,22 +56,32 @@ Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
     Route::get('all/users', [All_Users_data_Controller::class, 'index'])->name('daily_reports.index');
 });
 
-// Admin-only routes for managing tasks
-Route::middleware(['auth', 'admin'])->group(function () {
+// Admin-only routes for managing Reports
+Route::middleware(['auth','admin', 'verified'])->group(function () {
     // Display all tasks
-    Route::get('/admin/tasks', [TaskController::class, 'index'])->name('admin.tasks.index');
-    Route::get('admin/tasks/data', [TaskController::class, 'getData'])->name('admin.tasks.data');
-    Route::get('/admin/tasks/create', [TaskController::class, 'create'])->name('admin.tasks.create');
-    Route::post('/admin/tasks', [TaskController::class, 'store'])->name('admin.tasks.store');
-    Route::get('/admin/tasks/{id}', [TaskController::class, 'show'])->name('admin.tasks.show');
-    Route::put('/admin/tasks/{id}', [TaskController::class, 'update'])->name('admin.tasks.update');
-    Route::get('/admin/delete/{id}', [TaskController::class, 'destroy'])->name('admin.tasks.destroy');
+    Route::get('/admin/reports', [AdminReportsController::class, 'index'])->name('admin.reports.index');
+    Route::get('admin/reports/data', [AdminReportsController::class, 'getData'])->name('admin.reports.data');
 });
 
 // Employee-only routes for managing tasks
 Route::middleware(['auth', 'employee','verified'])->prefix('employee')->name('employee.')->group(function () {
     Route::get('/tasks', [EmployeeTaskController::class, 'index'])->name('tasks.index');
     Route::get('tasks/data', [EmployeeTaskController::class, 'getData'])->name('tasks.data');
+    Route::get('/tasks/create', [EmployeeTaskController::class, 'create'])->name('tasks.create');
+    Route::post('/tasks', [EmployeeTaskController::class, 'store'])->name('tasks.store');
     Route::get('/tasks/{task}/edit', [EmployeeTaskController::class, 'edit'])->name('tasks.edit');
     Route::put('/tasks/{task}', [EmployeeTaskController::class, 'update'])->name('tasks.update');
+    Route::get('/tasks/{task}', [EmployeeTaskController::class, 'destroy'])->name('tasks.destroy');
 });
+
+// Admin-only routes for managing tasks
+// Route::middleware(['auth', 'admin'])->group(function () {
+//     // Display all tasks
+//     Route::get('/admin/tasks', [TaskController::class, 'index'])->name('admin.tasks.index');
+//     Route::get('admin/tasks/data', [TaskController::class, 'getData'])->name('admin.tasks.data');
+//     Route::get('/admin/tasks/create', [TaskController::class, 'create'])->name('admin.tasks.create');
+//     Route::post('/admin/tasks', [TaskController::class, 'store'])->name('admin.tasks.store');
+//     Route::get('/admin/tasks/{id}', [TaskController::class, 'show'])->name('admin.tasks.show');
+//     Route::put('/admin/tasks/{id}', [TaskController::class, 'update'])->name('admin.tasks.update');
+//     Route::get('/admin/delete/{id}', [TaskController::class, 'destroy'])->name('admin.tasks.destroy');
+// });

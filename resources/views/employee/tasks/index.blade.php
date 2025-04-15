@@ -28,10 +28,10 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            {{-- <div class="card-header">
-                                <a href="{{ route('employee.tasks.create') }}" class="btn btn-primary">+ Create a new user</a>
+                            <div class="card-header">
+                                <a href="{{ route('employee.tasks.create') }}" class="btn btn-primary">+ Add Task</a>
                                 <!-- Add Modal End -->
-                            </div> --}}
+                            </div>
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table id="data-table" class="table table-bordered table-hover" style="width:100%;">
