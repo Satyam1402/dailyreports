@@ -38,17 +38,17 @@ class EmployeeTaskController extends Controller
 
                 return DataTables::of($data)
                     ->addIndexColumn()
-                    ->editColumn('status', function ($row) {
-                        return $row->status == 1
-                            ? '<span class="badge bg-success">Active</span>'
-                            : '<span class="badge bg-danger">Inactive</span>';
-                    })
+                    // ->editColumn('status', function ($row) {
+                    //     return $row->status == 1
+                    //         ? '<span class="badge bg-success">Active</span>'
+                    //         : '<span class="badge bg-danger">Inactive</span>';
+                    // })
                     ->editColumn('created_at', function ($row) {
-                        return Carbon::parse($row->created_at)->format('d-m-Y h:i A');
+                        return Carbon::parse($row->created_at)->format('d M Y');
                     })
-                    ->editColumn('updated_at', function ($row) {
-                        return Carbon::parse($row->updated_at)->format('d-m-Y h:i A');
-                    })
+                    // ->editColumn('updated_at', function ($row) {
+                    //     return Carbon::parse($row->updated_at)->format('d-m-Y h:i A');
+                    // })
                     ->addColumn('action', function ($row) {
                         return '
                             <a href="' . route('employee.tasks.edit', $row->id) . '" class="btn btn-info btn-sm mr-1">
@@ -59,7 +59,7 @@ class EmployeeTaskController extends Controller
                             </a>
                         ';
                     })
-                    ->rawColumns(['status', 'action'])
+                    ->rawColumns(['action'])
                     ->make(true);
 
             } catch (\Exception $e) {
@@ -81,13 +81,13 @@ class EmployeeTaskController extends Controller
     {
         $request->validate([
             'task_info' => 'required|string|max:255',
-            'status' => 'required|in:0,1',
+            // 'status' => 'required|in:0,1',
         ]);
 
         Task::create([
             'user_id' => auth()->id(),
             'task_info' => $request->task_info,
-            'status' => $request->status,
+            // 'status' => $request->status,
         ]);
 
         return redirect()->route('employee.tasks.index')->with('success', 'Task created successfully!');
@@ -120,12 +120,12 @@ class EmployeeTaskController extends Controller
 
         $request->validate([
             'task_info' => 'required|string|max:255',
-            'status' => 'required|in:0,1',
+            // 'status' => 'required|in:0,1',
         ]);
 
         $task->update([
             'task_info' => $request->task_info,
-            'status' => $request->status,
+            // 'status' => $request->status,
         ]);
 
         return redirect()->route('employee.tasks.index')->with('success', 'Task updated successfully!');

@@ -39,17 +39,17 @@
                                     <!-- Task Info -->
                                     <div class="form-group">
                                         <label for="task_info">Task Info</label>
-                                        <textarea name="task_info" id="task_info" rows="3" class="form-control" required>{{ old('task_info', $task->task_info) }}</textarea>
+                                        <textarea name="task_info" id="task_info" rows="10" class="form-control" required>{{ old('task_info', $task->task_info) }}</textarea>
                                     </div>
 
                                     <!-- Status -->
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="status">Status</label>
                                         <select name="status" id="status" class="form-control" required>
                                             <option value="1" {{ $task->status == 1 ? 'selected' : '' }}>Active</option>
                                             <option value="0" {{ $task->status == 0 ? 'selected' : '' }}>Inactive</option>
                                         </select>
-                                    </div>
+                                    </div> --}}
 
                                     <!-- Buttons -->
                                     <button type="submit" class="btn btn-success">Update</button>

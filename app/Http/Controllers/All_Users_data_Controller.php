@@ -52,19 +52,19 @@ class All_Users_data_Controller extends Controller
                 // ->addColumn('password', function ($row) {
                 //     return '<code>' . e($row->password) . '</code>'; // Escaping to prevent XSS
                 // })
-                ->addColumn('status', function ($row) {
-                    if ($row->status == 0) {
-                        return '<span class="badge bg-danger">Inactive</span>';
-                    } else {
-                        return '<span class="badge bg-success">Active</span>';
-                    }
-                })
-                ->addColumn('created_at', function ($row) {
-                    return Carbon::parse($row->created_at)->format('d-m-Y h:i A');
-                })
-                ->addColumn('updated_at', function ($row) {
-                    return Carbon::parse($row->updated_at)->format('d-m-Y h:i A');
-                })
+                // ->addColumn('status', function ($row) {
+                //     if ($row->status == 0) {
+                //         return '<span class="badge bg-danger">Inactive</span>';
+                //     } else {
+                //         return '<span class="badge bg-success">Active</span>';
+                //     }
+                // })
+                // ->addColumn('created_at', function ($row) {
+                //     return Carbon::parse($row->created_at)->format('d-m-Y h:i A');
+                // })
+                // ->addColumn('updated_at', function ($row) {
+                //     return Carbon::parse($row->updated_at)->format('d-m-Y h:i A');
+                // })
                 ->addColumn('action', function ($row) {
                     return '
                         <div class="d-flex">
@@ -77,7 +77,7 @@ class All_Users_data_Controller extends Controller
                         </div>
                     ';
                 })
-                ->rawColumns(['password','status','action'])
+                ->rawColumns(['action'])
                 ->make(true);
         }
     }
@@ -95,7 +95,7 @@ class All_Users_data_Controller extends Controller
             'email' => 'required|email|unique:users,email', // assuming table name is `users`
             'password' => 'required|string|min:4',
             'user_role' => 'required|in:admin,employee',
-            'status' => 'required|in:1,0',
+            // 'status' => 'required|in:1,0',
         ]);
 
         // Create a new MarketingHouseCategory instance
@@ -104,7 +104,7 @@ class All_Users_data_Controller extends Controller
         $data->email = $request->email ?? ''; // Default to empty string if null
         $data->password = bcrypt($request->password); // Hash the password
         $data->user_role = $request->user_role ?? ''; // Default to empty string if null
-        $data->status = $request->status ?? 0; // Default to 'Inactive' if null
+        // $data->status = $request->status ?? 0; // Default to 'Inactive' if null
         $data->save();
 
         // Redirect to the index page with a success message
@@ -128,14 +128,14 @@ class All_Users_data_Controller extends Controller
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable|string|min:4',
             'user_role' => 'required|in:admin,employee',
-            'status' => 'required|in:1,0',
+            // 'status' => 'required|in:1,0',
         ]);
 
         $update = [
             'name' => $request->name,
             'email' => $request->email,
             'user_role' => $request->user_role,
-            'status' => $request->status,
+            // 'status' => $request->status,
         ];
 
         if (!empty($request->password)) {

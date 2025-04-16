@@ -58,7 +58,6 @@ Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
 
 // Admin-only routes for managing Reports
 Route::middleware(['auth','admin', 'verified'])->group(function () {
-    // Display all tasks
     Route::get('/admin/reports', [AdminReportsController::class, 'index'])->name('admin.reports.index');
     Route::get('admin/reports/data', [AdminReportsController::class, 'getData'])->name('admin.reports.data');
 });

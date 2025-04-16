@@ -14,7 +14,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>All Reports</h1>
+                    <h1>Reports</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -53,8 +53,8 @@
                                 <th>No.</th>
                                 <th>Name</th>
                                 <th>Task Info</th>
-                                <th>Created At</th>
-                                <th>Updated At</th>
+                                {{-- <th>Created At</th>
+                                <th>Updated At</th> --}}
                                 {{-- <th>Action</th> --}}
                             </tr>
                         </thead>
@@ -78,16 +78,16 @@
             url: "{{ route('admin.reports.data') }}", // Your route to fetch data
             data: function (d) {
                 d.user_id = $('#userFilter').val(); // Pass selected user ID
-                d.start_date = $('#start_date').val();
-                d.end_date = $('#end_date').val();
+                // d.start_date = $('#start_date').val();
+                // d.end_date = $('#end_date').val();
             }
         },
         columns: [
             { data: 'DT_RowIndex', name: 'DT_RowIndex' },
             { data: 'user_name', name: 'user_name' },
             { data: 'task_info', name: 'task_info' },
-            { data: 'created_at', name: 'created_at' },
-            { data: 'updated_at', name: 'updated_at' }
+            // { data: 'created_at', name: 'created_at' },
+            // { data: 'updated_at', name: 'updated_at' }
         ]
     });
 

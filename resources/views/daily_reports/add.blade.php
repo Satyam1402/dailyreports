@@ -53,20 +53,20 @@
                                     <div class="form-group">
                                         <label for="user_role">User Role</label>
                                         <select class="form-control" id="user_role" name="user_role">
-                                            <option value="admin">Admin</option>
                                             <option value="employee">Employee</option>
+                                            <option value="admin">Admin</option>
                                         </select>
                                     </div>
 
                                     <!-- Status -->
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="status">Status</label>
                                         <select class="form-control" id="status" name="status">
                                             <option value="" disabled selected>Select status</option>
                                             <option value="1">Active</option>
                                             <option value="0">Inactive</option>
                                         </select>
-                                    </div>
+                                    </div> --}}
 
                                     <!-- Submit Button -->
                                     <button type="submit" class="btn btn-success">Add</button>

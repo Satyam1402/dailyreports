@@ -77,19 +77,19 @@
                                     <div class="form-group">
                                         <label for="user_role">User Role <span class="text-danger">*</span></label>
                                         <select class="form-control" id="user_role" name="user_role" required>
-                                            <option value="admin" {{ $data->user_role === 'admin' ? 'selected' : '' }}>Admin</option>
                                             <option value="employee" {{ $data->user_role === 'employee' ? 'selected' : '' }}>Employee</option>
+                                            <option value="admin" {{ $data->user_role === 'admin' ? 'selected' : '' }}>Admin</option>
                                         </select>
                                     </div>
 
                                     <!-- Status -->
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <label for="status">Status <span class="text-danger">*</span></label>
                                         <select class="form-control" id="status" name="status" required>
                                             <option value="1" {{ $data->status == 1 ? 'selected' : '' }}>Active</option>
                                             <option value="0" {{ $data->status == 0 ? 'selected' : '' }}>Inactive</option>
                                         </select>
-                                    </div>
+                                    </div> --}}
 
                                     <!-- Submit & Back Buttons -->
                                     <button type="submit" class="btn btn-success">Update</button>

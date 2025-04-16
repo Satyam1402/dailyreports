@@ -10,7 +10,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>All Users</h1>
+                        <h1>Users</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -42,9 +42,9 @@
                                             <th>Name</th>
                                             <th>Email</th>
                                             {{-- <th>Password</th> --}}
-                                            <th>Created At</th>
-                                            <th>Updated At</th>
-                                            <th>Status</th>
+                                            {{-- <th>Created At</th>
+                                            <th>Updated At</th> --}}
+                                            {{-- <th>Status</th> --}}
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -108,20 +108,20 @@
                     //     data: 'password',
                     //     name: 'password'
                     // },
-                    {
-                        data: 'created_at',
-                        name: 'created_at'
-                    },
-                    {
-                        data: 'updated_at',
-                        name: 'updated_at'
-                    },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        orderable: true,
-                        searchable: false
-                    },
+                    // {
+                    //     data: 'created_at',
+                    //     name: 'created_at'
+                    // },
+                    // {
+                    //     data: 'updated_at',
+                    //     name: 'updated_at'
+                    // },
+                    // {
+                    //     data: 'status',
+                    //     name: 'status',
+                    //     orderable: true,
+                    //     searchable: false
+                    // },
                     {
                         data: 'action',
                         name: 'action',

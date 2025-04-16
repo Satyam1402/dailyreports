@@ -43,17 +43,17 @@ class AdminReportsController extends Controller
                     ->editColumn('user_name', function ($row) {
                         return $row->user_name ?? 'N/A';
                     })
-                    ->editColumn('status', function ($row) {
-                        return $row->status == 0
-                            ? '<span class="badge bg-danger">Inactive</span>'
-                            : '<span class="badge bg-success">Active</span>';
-                    })
-                    ->editColumn('created_at', function ($row) {
-                        return \Carbon\Carbon::parse($row->created_at)->format('d-m-Y h:i A');
-                    })
-                    ->editColumn('updated_at', function ($row) {
-                        return \Carbon\Carbon::parse($row->updated_at)->format('d-m-Y h:i A');
-                    })
+                    // ->editColumn('status', function ($row) {
+                    //     return $row->status == 0
+                    //         ? '<span class="badge bg-danger">Inactive</span>'
+                    //         : '<span class="badge bg-success">Active</span>';
+                    // })
+                    // ->editColumn('created_at', function ($row) {
+                    //     return \Carbon\Carbon::parse($row->created_at)->format('d-m-Y h:i A');
+                    // })
+                    // ->editColumn('updated_at', function ($row) {
+                    //     return \Carbon\Carbon::parse($row->updated_at)->format('d-m-Y h:i A');
+                    // })
                     ->rawColumns(['user_name','status'])
                     ->make(true);
             } catch (\Exception $e) {

@@ -30,27 +30,36 @@ class AuthController extends Controller
 
         if (Auth::attempt($validated)) {
             $request->session()->regenerate();
-            $notification = array(
+
+            $notification = [
                 'status' => 'toast_success',
                 'title' => 'Login Successful',
                 'message' => 'You have logged in successfully',
-            );
+            ];
 
-            $id = Auth::user()->id;
-            $update = User::find($id);
-            $update->updated_at = now();
-            $update->save();
+            // Define the user
+            $user = Auth::user();
+
+            // Update last login timestamp
+            $user->updated_at = now();
+            $user->save();
+
+            // Now safely use $user
+            if ($user->user_role === 'employee') {
+                return redirect()->route('employee.tasks.index')->with($notification);
+            }
 
             return redirect()->intended('/dashboard')->with($notification);
         }
 
-        $notification = array(
+        $notification = [
             'status' => 'error',
             'title' => 'Login Failed',
             'message' => 'Incorrect username or password',
-        );
+        ];
         return back()->with($notification);
     }
+
 
     public function logout(Request $request)
     {

@@ -11,7 +11,7 @@
                 <li class="nav-item">
                     <a href="{{ route('daily_reports.index') }}" class="nav-link bg-primary text-white {{ Request::is('all/users*') ? 'active' : '' }}" style="border-radius: 5px;">
                         <i class="nav-icon fas fa-users-cog"></i>
-                        <p>User Management</p>
+                        <p>Users</p>
                     </a>
                 </li>
 
@@ -20,7 +20,7 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.reports.index') }}" class="nav-link bg-primary text-white {{ Request::is('admin/reports*') ? 'active' : '' }}" style="border-radius: 5px;">
                         <i class="nav-icon fas fa-tasks"></i>
-                        <p>Reports Management</p>
+                        <p>Reports</p>
                     </a>
                 </li>
 
