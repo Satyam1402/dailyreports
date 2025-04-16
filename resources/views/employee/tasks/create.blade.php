@@ -8,12 +8,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Add New Task</h1>
+                        {{-- <h1>Add Report</h1> --}}
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Add Task</li>
+                            <li class="breadcrumb-item active">Add Report</li>
                         </ol>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                     <div class="col-12">
                         <div class="card card-success">
                             <div class="card-header">
-                                <h3 class="card-title">Create Task</h3>
+                                <h3 class="card-title">Add Report</h3>
                             </div>
 
                             <div class="card-body">
@@ -36,7 +36,7 @@
 
                                     <!-- Task Info -->
                                     <div class="form-group">
-                                        <label for="task_info">Task Info</label>
+                                        <label for="task_info">Report</label>
                                         <textarea name="task_info" id="task_info" rows="10" class="form-control" required>{{ old('task_info') }}</textarea>
                                     </div>
 

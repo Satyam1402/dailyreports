@@ -49,6 +49,10 @@ class AuthController extends Controller
                 return redirect()->route('employee.tasks.index')->with($notification);
             }
 
+            if ($user->user_role === 'admin') {
+                return redirect()->route('admin.reports.index')->with($notification);
+            }
+
             return redirect()->intended('/dashboard')->with($notification);
         }
 

@@ -10,12 +10,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Tasks</h1>
+                        <h1>Reports</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">All Tasks List</li>
+                            <li class="breadcrumb-item active">All Report</li>
                         </ol>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <a href="{{ route('employee.tasks.create') }}" class="btn btn-primary">+ Add Task</a>
+                                <a href="{{ route('employee.tasks.create') }}" class="btn btn-primary">+ Add Report</a>
                                 <!-- Add Modal End -->
                             </div>
                             <!-- /.card-header -->
@@ -39,7 +39,7 @@
                                         <tr>
                                             {{-- <th>No.</th> --}}
                                             <th>Date</th>
-                                            <th>Task</th>
+                                            <th>Report</th>
                                             {{-- <th>Status</th>
                                             <th>Updated At</th> --}}
                                             <th>Action</th>
