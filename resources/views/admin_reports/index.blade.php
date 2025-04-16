@@ -12,7 +12,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="row">
                 <div class="col-sm-6">
                     <h1>Reports</h1>
                 </div>
@@ -30,29 +30,56 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card">
-                <div class="card-header">
-                    <div class="row">
-                    <div class="mt-2">
-                        <div class="from-group">
-                        <label for="">Employee Name</label>
-                        <select id="userFilter" class="form-control">
-                            <option value="">-- select employee --</option>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
+                <div class="card-header py-2 px-3">
+                    <div class="row align-items-end justify-content-between">
+                        <!-- Employee Filter -->
+                        <div class="col-md-4 px-1">
+                            <div class="form-group mb-0">
+                                <label for="userFilter">User Name</label>
+                                <select id="userFilter" class="form-control">
+                                    <option value="">-- select user --</option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Date Filters (Right aligned) -->
+                        {{-- <div class="col-md-7 mt-2">
+                            <div class="form-row d-flex justify-content-end">
+                                <div class="form-group mr-2">
+                                    <label for="start_date">Start Date</label>
+                                    <input type="date" id="start_date" class="form-control">
+                                </div>
+                                <div class="form-group mr-2">
+                                    <label for="end_date">End Date</label>
+                                    <input type="date" id="end_date" class="form-control">
+                                </div>
+                                <div class="form-group mt-4">
+                                    <button id="filterBtn" class="btn btn-primary">Filter</button>
+                                </div>
+                            </div>
+                        </div> --}}
+                        <!-- In your Blade file -->
+                        <div class="col-md-3  px-1">
+                            <div class="form-group mb-0">
+                                <label for="filter_date">Filter By Date</label>
+                                <input type="date" id="filter_date" class="form-control">
+                            </div>
+                        </div>
+
                     </div>
-                  </div>
                 </div>
             </div>
 
-                <div class="card-body">
-                    <table id="data-table" class="table table-bordered table-hover w-100">
+                <div class="card-body py-1 px-2">
+                    <table id="data-table" class="table table-bordered table-hover table-sm w-100">
                         <thead>
                             <tr>
                                 <th>No.</th>
                                 <th>Name</th>
-                                <th>Task Info</th>
+                                <th>Report</th>
                                 {{-- <th>Created At</th>
                                 <th>Updated At</th> --}}
                                 {{-- <th>Action</th> --}}
@@ -78,6 +105,7 @@
             url: "{{ route('admin.reports.data') }}", // Your route to fetch data
             data: function (d) {
                 d.user_id = $('#userFilter').val(); // Pass selected user ID
+                d.filter_date = $('#filter_date').val(); // Send selected date
                 // d.start_date = $('#start_date').val();
                 // d.end_date = $('#end_date').val();
             }
@@ -92,10 +120,15 @@
     });
 
     // Trigger reload when user selection changes
-    $('#userFilter').change(function () {
+    $('#userFilter,#filter_date').change(function () {
         table.ajax.reload(); // Reload the table with the new user filter
         });
     });
+
+    // Filter on date or filter button click
+    // $('#filterBtn').on('click', function () {
+    //     table.ajax.reload();
+    // });
 
 
     function confirmDelete(url) {

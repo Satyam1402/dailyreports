@@ -38,7 +38,7 @@
 
                                     <!-- Task Info -->
                                     <div class="form-group">
-                                        <label for="task_info">Report</label>
+                                        {{-- <label for="task_info">Report</label> --}}
                                         <textarea name="task_info" id="task_info" rows="10" class="form-control" required>{{ old('task_info', $task->task_info) }}</textarea>
                                     </div>
 

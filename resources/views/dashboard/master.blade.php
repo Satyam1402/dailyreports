@@ -108,12 +108,12 @@
     @if ($user->user_role === 'employee')
         <a href="{{ route('employee.tasks.index') }}" class="brand-link">
             <img src="{{ asset('assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-            <span class="brand-text font-weight-light">Employee Reports</span>
+            <span class="brand-text font-weight-light">Daily Reports</span>
         </a>
     @elseif ($user->user_role === 'admin')
         <a href="{{ route('admin.reports.index') }}" class="brand-link">
             <img src="{{ asset('assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-            <span class="brand-text font-weight-light">Admin Reports</span>
+            <span class="brand-text font-weight-light">Daily Reports</span>
         </a>
     @endif
     @endif
@@ -126,12 +126,9 @@
   <!-- Content Wrapper. Contains page content -->
   @yield('content')
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
+  <footer class="main-footer text-center">
     <strong>Copyright &copy; {{ date('Y') }} <a href="{{route('dashboard')}}">Daily Reports</a>.</strong>
     All rights reserved.
-    {{-- <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
-    </div> --}}
   </footer>
 
   <!-- Control Sidebar -->
