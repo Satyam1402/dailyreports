@@ -23,10 +23,23 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                $user = Auth::user();
+
+                // Role-based redirect
+                if ($user->user_role === 'admin') {
+                    return redirect()->route('admin.reports.index');
+                }
+
+                if ($user->user_role === 'employee') {
+                    return redirect()->route('employee.tasks.index');
+                }
+
+                // Default fallback route if no role matched
+                return redirect('/dashboard');
             }
         }
 
         return $next($request);
     }
+
 }

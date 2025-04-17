@@ -16,29 +16,16 @@ use App\Http\Controllers\EmployeeTaskController;
 use App\Http\Controllers\All_Users_data_Controller;
 
 
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/', function () {
     return view('welcome');
 });
 
-
+// Login and Registration routes
 Route::get('/login', [AuthController::class, 'index'])->name('login');
-Route::get('/login', [AuthController::class, 'index'])->name('login');
+// Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'auth'])->name('auth');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
-
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 
@@ -56,11 +43,13 @@ Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () {
     Route::get('all/users', [All_Users_data_Controller::class, 'index'])->name('daily_reports.index');
 });
 
+
 // Admin-only routes for managing Reports
 Route::middleware(['auth','admin', 'verified'])->group(function () {
     Route::get('/admin/reports', [AdminReportsController::class, 'index'])->name('admin.reports.index');
     Route::get('admin/reports/data', [AdminReportsController::class, 'getData'])->name('admin.reports.data');
 });
+
 
 // Employee-only routes for managing tasks
 Route::middleware(['auth', 'employee','verified'])->prefix('employee')->name('employee.')->group(function () {

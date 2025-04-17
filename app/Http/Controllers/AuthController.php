@@ -15,11 +15,23 @@ class AuthController extends Controller
 
     public function index()
     {
-        $data=User::all();
-        // print_r($data->toArray());
-        // die;
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            if ($user->user_role === 'employee') {
+                return redirect()->route('employee.tasks.index');
+            }
+
+            if ($user->user_role === 'admin') {
+                return redirect()->route('admin.reports.index');
+            }
+
+            return redirect('/dashboard'); // fallback if role doesn't match
+        }
+
         return view('auth.login');
     }
+
 
     public function auth(Request $request)
     {

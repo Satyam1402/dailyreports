@@ -127,9 +127,19 @@
   @yield('content')
   <!-- /.content-wrapper -->
   <footer class="main-footer text-center">
-    <strong>Copyright &copy; {{ date('Y') }} <a href="{{route('dashboard')}}">Daily Reports</a>.</strong>
-    All rights reserved.
+    <strong>
+        Copyright &copy; {{ date('Y') }}
+        @if(isset($authUser) && $authUser->user_role == 'admin')
+            <a href="{{ route('admin.reports.index') }}">Daily Reports</a>.
+        @elseif(isset($authUser) && $authUser->user_role == 'employee')
+            <a href="{{ route('employee.tasks.index') }}">Daily Reports</a>.
+        @else
+            <a href="#">Daily Reports</a>. {{-- Or fallback route --}}
+        @endif
+     </strong>
+     All rights reserved.
   </footer>
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
