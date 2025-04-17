@@ -80,7 +80,7 @@ class EmployeeTaskController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'task_info' => 'required|string|max:255',
+            'task_info' => 'required|string',
             // 'status' => 'required|in:0,1',
         ]);
 
@@ -119,7 +119,7 @@ class EmployeeTaskController extends Controller
         }
 
         $request->validate([
-            'task_info' => 'required|string|max:255',
+            'task_info' => 'required|string',
             // 'status' => 'required|in:0,1',
         ]);
 

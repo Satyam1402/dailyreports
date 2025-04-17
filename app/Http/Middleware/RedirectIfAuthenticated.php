@@ -34,7 +34,9 @@ class RedirectIfAuthenticated
                     return redirect()->route('employee.tasks.index');
                 }
 
+
                 // Default fallback route if no role matched
+
                 return redirect('/dashboard');
             }
         }
