@@ -27,6 +27,7 @@ class AdminReportsController extends Controller
                 // Get the user_id from the request
                 $user_id = $request->get('user_id', null);
                 $filter_date = $request->get('filter_date');
+                // $checkOnly = $request->get('check_only', false);
 
                 // Build the query
                 $query = Task::leftJoin('users', 'tasks.user_id', '=', 'users.id')
@@ -43,6 +44,13 @@ class AdminReportsController extends Controller
                     $query->whereDate('tasks.created_at', $filter_date);
                 }
 
+                // If we're only checking if data exists for a date
+                // if ($checkOnly) {
+                //     $exists = $query->exists();
+                //     return response()->json(['exists' => $exists]);
+                // }
+
+                // $query->orderBy('tasks.updated_at', 'desc');
                 $data = $query->get();
 
                 return DataTables::of($data)
