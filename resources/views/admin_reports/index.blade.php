@@ -46,26 +46,11 @@
                         </div>
 
                         <!-- Date Filters (Right aligned) -->
-                        {{-- <div class="col-md-7 mt-2">
-                            <div class="form-row d-flex justify-content-end">
-                                <div class="form-group mr-2">
-                                    <label for="start_date">Start Date</label>
-                                    <input type="date" id="start_date" class="form-control">
-                                </div>
-                                <div class="form-group mr-2">
-                                    <label for="end_date">End Date</label>
-                                    <input type="date" id="end_date" class="form-control">
-                                </div>
-                                <div class="form-group mt-4">
-                                    <button id="filterBtn" class="btn btn-primary">Filter</button>
-                                </div>
-                            </div>
-                        </div> --}}
-                        <!-- In your Blade file -->
                         <div class="col-md-3  px-1">
                             <div class="form-group mb-0">
                                 <label for="filter_date">Filter By Date</label>
-                                <input type="date" id="filter_date" class="form-control">
+                                {{-- <input type="date" id="filter_date" class="form-control"> --}}
+                                <input type="date" id="filter_date" class="form-control" value="{{ \Carbon\Carbon::today()->toDateString() }}">
                             </div>
                         </div>
 
@@ -80,9 +65,6 @@
                                 <th>No.</th>
                                 <th>Name</th>
                                 <th>Report</th>
-                                {{-- <th>Created At</th>
-                                <th>Updated At</th> --}}
-                                {{-- <th>Action</th> --}}
                             </tr>
                         </thead>
                     </table>
@@ -106,16 +88,12 @@
             data: function (d) {
                 d.user_id = $('#userFilter').val(); // Pass selected user ID
                 d.filter_date = $('#filter_date').val(); // Send selected date
-                // d.start_date = $('#start_date').val();
-                // d.end_date = $('#end_date').val();
             }
         },
         columns: [
             { data: 'DT_RowIndex', name: 'DT_RowIndex' },
             { data: 'user_name', name: 'user_name' },
             { data: 'task_info', name: 'task_info' },
-            // { data: 'created_at', name: 'created_at' },
-            // { data: 'updated_at', name: 'updated_at' }
         ]
     });
 
@@ -124,12 +102,6 @@
         table.ajax.reload(); // Reload the table with the new user filter
         });
     });
-
-    // Filter on date or filter button click
-    // $('#filterBtn').on('click', function () {
-    //     table.ajax.reload();
-    // });
-
 
     function confirmDelete(url) {
         Swal.fire({

@@ -26,8 +26,6 @@ class AdminReportsController extends Controller
             try {
                 // Get the user_id from the request
                 $user_id = $request->get('user_id', null);
-                // $start_date = $request->get('start_date');
-                // $end_date = $request->get('end_date');
                 $filter_date = $request->get('filter_date');
 
                 // Build the query
@@ -41,11 +39,6 @@ class AdminReportsController extends Controller
                 }
 
                 // Date filtering
-                // if ($start_date && $end_date) {
-                //     $query->whereBetween(DB::raw('DATE(tasks.created_at)'), [$start_date, $end_date]);
-                // } elseif ($start_date) {
-                //     $query->whereDate('tasks.created_at', $start_date);
-                // }
                 if ($filter_date) {
                     $query->whereDate('tasks.created_at', $filter_date);
                 }
